@@ -1,8 +1,12 @@
 # ctrl + shift +R crea secciones
 
+
+# Vamos a jugar con datos simulados. Escojan sus distribuciones. ----------
+
+
+
 # Librerías ---------------------------------------------------------------
 
-library("ggplot2")
 library("dplyr")
 
 # Distribución normal estándar --------------------------------------------
@@ -60,10 +64,11 @@ boxplot(Edad ~ Lugar, data = edad_lugar)
 # Gráfico bonito ----------------------------------------------------------
 
 
+library("ggplot2")
 library("LaCroixColoR")
 
 colour_setup <- lacroix_palette("PassionFruit", n = 6)[c(1, 4, 5)]
-
+colores_platzi <- c("#78D92A", "#002E4E", "#058ECD", "#ED2B05", "#F4F7F4")
 
 
 edad_lugar %>% 
@@ -83,7 +88,7 @@ edad_lugar %>%
   scale_colour_manual(values = colour_setup) +
   labs(x = "Edad", y = NULL, caption = NULL) +
   xlim(0, 30) +
-  theme_light() + 
+  theme_minimal() + 
   theme(
     legend.position = "bottom"
     )
@@ -99,7 +104,7 @@ tibble(
 ) -> datos_lineal
 
 plot(Y~X, data = datos_lineal)
-
+lines(Z~X, data = datos_lineal, col = 2, lwd = 2)
 
 # Modelo no lineal --------------------------------------------------------
 
@@ -111,6 +116,7 @@ tibble(
 ) -> datos_no_lineal
 
 plot(Y~X, data = datos_no_lineal)
+lines(Z~X, data = datos_no_lineal, col = 2, lwd = 2)
 
 
 # Gráficos bonitos --------------------------------------------------------
@@ -121,7 +127,7 @@ datos_lineal %>%
   geom_point(aes(X, Y)) +
   geom_path(aes(X, Z), colour = colour_setup[1], size = 1) +
   # geom_smooth(aes(X, Y), colour = colour_setup[2], method = "lm", size = 1, se = FALSE) +
-  theme_light()
+  theme_minimal()
 
   
 datos_no_lineal %>%
@@ -129,7 +135,7 @@ datos_no_lineal %>%
   geom_point(aes(X, Y)) +
   geom_path(aes(X, Z), colour = colour_setup[1], size = 1) +
   # geom_smooth(aes(X, Y), colour = colour_setup[2], method = "loess", size = 1, se = FALSE) +
-  theme_light()
+  theme_minimal()
 
   
   
