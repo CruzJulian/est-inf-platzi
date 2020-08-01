@@ -1,10 +1,11 @@
 
-# Estimar una curva de densidad usando kernel y una cuva de distri --------
+
+# ECDF para todos! --------------------------------------------------------
+
 
 
 # Paquetes ----------------------------------------------------------------
 
-library("dplyr")
 
 
 # Kernel ------------------------------------------------------------------
@@ -24,12 +25,12 @@ Y <- rnorm(tamano_muestral, media, desv)
 estimador_kernel <- density(Y)
 
 plot(estimador_kernel)
-lines(x = x, y = dnorm(x, media, desv), col = 2, lwd = 3)
+lines(x = x, y = dnorm(x, media, desv), col = 2, lwd = 2)
 
 
 
 plot(estimador_kernel)
-for(i in 1:iteraciones){
+for(i in seq_len(iteraciones)){
   Y <- rnorm(tamano_muestral, media, desv)
   
   estimador_kernel <- density(Y)
@@ -37,7 +38,7 @@ for(i in 1:iteraciones){
     lines(estimador_kernel)
   
 }
-lines(x = x, y = dnorm(x, media, desv), col = 2, lwd = 3)
+lines(x = x, y = dnorm(x, media, desv), col = 2, lwd = 2)
 
 
 
@@ -56,12 +57,12 @@ Y <- runif(tamano_muestral, a, b)
 estimador_kernel <- density(Y)
 
 plot(estimador_kernel)
-lines(x = x, y = dunif(x, a, b), col = 2, lwd = 3)
+lines(x = x, y = dunif(x, a, b), col = 2, lwd = 2)
 
 
 
 plot(estimador_kernel)
-for(i in 1:iteraciones){
+for(i in seq_len(iteraciones)){
   Y <- runif(tamano_muestral, a, b)
   
   estimador_kernel <- density(Y)
@@ -69,7 +70,7 @@ for(i in 1:iteraciones){
   lines(estimador_kernel)
   
 }
-lines(x = x, y = dunif(x, a, b), col = 2, lwd = 3)
+lines(x = x, y = dunif(x, a, b), col = 2, lwd = 2)
 
 
 
@@ -90,20 +91,17 @@ Y <- rnorm(tamano_muestral, media, desv)
 estimador_ecdf <- ecdf(Y)
 
 plot(estimador_ecdf, pch = "", verticals = TRUE)
-lines(x = x, y = pnorm(x, media, desv), col = 2, lwd = 3)
+lines(x = x, y = pnorm(x, media, desv), col = 2, lwd = 2)
 
 
 
 plot(estimador_ecdf, pch = "", verticals = TRUE)
-for(i in 1:iteraciones){
+for(i in seq_len(iteraciones)){
   Y <- rnorm(tamano_muestral, media, desv)
-  
   estimador_ecdf <- ecdf(Y)
-  
   lines(estimador_ecdf, pch = "", verticals = TRUE)
-  
 }
-lines(x = x, y = pnorm(x, media, desv), col = 2, lwd = 3)
+lines(x = x, y = pnorm(x, media, desv), col = 2, lwd = 2)
 
 
 
@@ -121,7 +119,7 @@ Y <- runif(tamano_muestral, a, b)
 estimador_ecdf <- ecdf(Y)
 
 plot(estimador_ecdf, pch = "", verticals = TRUE)
-lines(x = x, y = punif(x, a, b), col = 2, lwd = 3)
+lines(x = x, y = punif(x, a, b), col = 2, lwd = 2)
 
 
 
@@ -134,7 +132,7 @@ for(i in 1:iteraciones){
   lines(estimador_ecdf, pch = "", verticals = TRUE)
   
 }
-lines(x = x, y = punif(x, a, b), col = 2, lwd = 3)
+lines(x = x, y = punif(x, a, b), col = 2, lwd = 2)
 
 
 
@@ -143,6 +141,7 @@ lines(x = x, y = punif(x, a, b), col = 2, lwd = 3)
 library("magrittr")
 library("ggplot2")
 library("LaCroixColoR")
+library("dplyr")
 
 # kernel ------------------------------------------------------------------
 
@@ -152,6 +151,8 @@ library("LaCroixColoR")
 
 
 color_setup <- lacroix_palette("PassionFruit", n = 5, type = "discrete")[c(1, 4, 5)]
+
+colores_platzi <- c("#78D92A", "#002E4E", "#058ECD", "#ED2B05", "#F4F7F4")
 
 tamano_muestral <- 10
 media <- 5
@@ -261,10 +262,6 @@ ggplot(simulaciones) +
   geom_step(mapping = aes(x = datos, group = iter), colour = color_setup[3], size = 0.2, stat = "ecdf") +
   geom_path(data = poblacion, aes(x = x, y = y), colour = color_setup[1], size = 1) +
   theme_minimal()
-
-
-
-
 
 
 
