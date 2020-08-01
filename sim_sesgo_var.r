@@ -1,14 +1,9 @@
 
-
-
-# Establecer el sesgo de un estimador usando datos simulados. Hace --------
-
-
+# Veamos el funcionamiento del sesgo y la varianza a nivel funcion --------
 
 
 # Paquetes ----------------------------------------------------------------
 
-library("dplyr")
 
 
 # Kernel ------------------------------------------------------------------
@@ -100,7 +95,7 @@ lines(x = x, y = pnorm(x, media, desv), col = 2, lwd = 3)
 
 
 plot(estimador_ecdf, pch = "", verticals = TRUE)
-for(i in 1:iteraciones){
+for(i in seq_len(iteraciones)){
   Y <- rnorm(tamano_muestral, media, desv)
   
   estimador_ecdf <- ecdf(Y)
@@ -131,7 +126,7 @@ lines(x = x, y = punif(x, a, b), col = 2, lwd = 3)
 
 
 plot(estimador_ecdf, pch = "", verticals = TRUE)
-for(i in 1:iteraciones){
+for(i in seq_len(iteraciones)){
   Y <- runif(tamano_muestral, a, b)
   
   estimador_ecdf <- ecdf(Y)
@@ -147,7 +142,7 @@ lines(x = x, y = punif(x, a, b), col = 2, lwd = 3)
 
 
 iteraciones <- 100
-tamano_muestral <- 3000
+tamano_muestral <- 30
 beta_0 <- 1
 beta_1 <- -0.3
 
@@ -182,7 +177,7 @@ abline(beta_0, beta_1, col = 2, lwd = 3)
 
 # Red neuronal ------------------------------------------------------------
 iteraciones <- 100
-tamano_muestral <- 1000
+tamano_muestral <- 30
 
 library("nnet")
 
@@ -199,20 +194,19 @@ plot(Y~X)
 lines(cos(X) ~ X, col = 2, lwd = 3)
 
 
-red_neuronal <- nnet(X, Y, size = 8, linout = TRUE)
+red_neuronal <- nnet(X, Y, size = 8, linout = TRUE, trace = FALSE)
 
 YY <- predict(red_neuronal)
 lines(YY ~ X, col = 4)
 
 for(i in seq_len(iteraciones)){
   
-  red_neuronal <- nnet(X, Y, size = 8, linout = TRUE)
-  
+  Y <- genera_y(X)
+  red_neuronal <- nnet(X, Y, size = 8, linout = TRUE, trace = FALSE)
   YY <- predict(red_neuronal)
   lines(YY ~ X, col = 4)
   
 }
 
 lines(cos(X) ~ X, col = 2, lwd = 3)
-
 
