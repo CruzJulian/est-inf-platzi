@@ -52,22 +52,11 @@ data.frame(
 
 intervalo_bootstrapping
 
-# data.frame(
-#   beta_0_estimado,
-#   beta_1_estimado
-# ) %>% 
-#   gather(key = coeficiente, value = valor) %>% 
-#   group_by(coeficiente) %>% 
-#   summarise(
-#     LI = quantile(valor, 0.025),
-#     LS = quantile(valor, 0.975)
-#   )
-# 
 
-xmin_gr <- beta_0 - 10*desv_est_error/sqrt(tamano_muestral)
-xmax_gr <- beta_0 + 10*desv_est_error/sqrt(tamano_muestral)
-ymin_gr <- beta_1 - 10*desv_est_error/sqrt(tamano_muestral)
-ymax_gr <- beta_1 + 10*desv_est_error/sqrt(tamano_muestral)
+xmin_gr <- beta_0 - 4*desv_est_error/sqrt(tamano_muestral)
+xmax_gr <- beta_0 + 4*desv_est_error/sqrt(tamano_muestral)
+ymin_gr <- beta_1 - 4*desv_est_error/sqrt(tamano_muestral)
+ymax_gr <- beta_1 + 4*desv_est_error/sqrt(tamano_muestral)
 
 plot(beta_0, beta_1, xlim = c(xmin_gr, xmax_gr), ylim = c(ymin_gr, ymax_gr))
 
