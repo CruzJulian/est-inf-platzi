@@ -1,5 +1,6 @@
 
-# Correr nuestro código de red neuronal con datos reales del paque --------
+# Red neuronal de pronóstico con datos reales. ----------------------------
+
 
 
 
@@ -31,5 +32,5 @@ Y <- muestra["MATEMATICAS_PUNT"]
 red_neuronal <- nnet(X, Y, size = 10, linout = TRUE)
 
 plot(unlist(Y) ~ predict(red_neuronal))
-lines(1:100, col = 2)
+lines(1:100, col = 2, lwd = 2)
 
