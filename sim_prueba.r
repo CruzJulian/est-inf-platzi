@@ -4,8 +4,6 @@
 
 # Paquetes ----------------------------------------------------------------
 
-library("dplyr")
-library("magrittr")
 
 # wmw con dos gamas -------------------------------------------------------
 
@@ -75,10 +73,13 @@ plot(dif_medias, potencia_wmw, ylim = c(0, 1), col = 4, type = "l")
 lines(dif_medias, potencia_t, col = 2)
 
 
+# Tidy approach -----------------------------------------------------------
 
-# gráfico lindo -----------------------------------------------------------
+
 
 library("ggplot2")
+library("dplyr")
+library("magrittr")
 
 
 tibble(
