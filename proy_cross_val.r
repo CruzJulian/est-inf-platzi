@@ -8,6 +8,7 @@ library("saber")
 library("nnet")
 library("caret")
 library("purrr")
+library("parallel")
 
 data("SB11_20112")
 
@@ -28,6 +29,8 @@ rmse_fold <- function(pliegue, X, Y, nn_size){
 
 
 tamano_muestral <- 2000
+neuronas <- 10
+n_pliegues <- 10
 
 muestra <- sample_n(SB11_20112, tamano_muestral)
 
@@ -44,20 +47,16 @@ Y <- muestra["MATEMATICAS_PUNT"]
 
 Y_v <- unlist(Y)
 
-neuronas <- 10
 
-red_neuronal <- nnet(X, Y, size = neuronas, linout = TRUE)
+red_neuronal <- nnet(X, Y, size = neuronas, linout = TRUE, trace = FALSE)
 
 plot(Y_v ~ predict(red_neuronal))
 lines(1:100, col = 2)
 
-n_pliegues <- 10
-
 createFolds(Y_v, k = n_pliegues) -> pliegues
 
-
 pliegues %>% 
-  map_dbl(rmse_fold, X, Y, nn_size = neuronas) %>% 
+  mclapply(rmse_fold, X, Y, nn_size = neuronas, mc.cores = floor(detectCores()*0.8)) %>% 
+  unlist %>% 
   mean
-
 
