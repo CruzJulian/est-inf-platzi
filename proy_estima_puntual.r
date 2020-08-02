@@ -14,7 +14,6 @@
 # install.packages("devtools")
 # devtools::install_github("nebulae-co/saber")
 
-library("dplyr")
 library("saber")
 
 
@@ -28,6 +27,7 @@ data("SB11_20112")
 # SB11_20112 %>% names()
 
 
+iteraciones <- 38
 tamano_muestral <- 27
 
 mean(SB11_20112$MATEMATICAS_PUNT)
@@ -44,7 +44,6 @@ cex = 4,
 col = "white"
 )
 
-iteraciones <- 38
 
 for(i in seq_len(iteraciones)){
 points(
@@ -64,10 +63,15 @@ points(
 )
 
 
-# Gráfico bonito ----------------------------------------------------------
 
+# tidy approach -----------------------------------------------------------
+
+
+library("dplyr")
 library("ggplot2")
 library("purrr")
+
+colores_platzi <- c("#78D92A", "#002E4E", "#058ECD", "#ED2B05", "#F4F7F4")
 
 tibble(
   muestras = replicate(iteraciones, sample(SB11_20112[["MATEMATICAS_PUNT"]], tamano_muestral), simplify = FALSE),
@@ -80,8 +84,6 @@ tibble(
     x = mean(SB11_20112[["MATEMATICAS_PUNT"]]), 
     y = sd(SB11_20112[["MATEMATICAS_PUNT"]]),
     size = 4,
-    colour = "#ED2B05") +
+    colour = colores_platzi[4]) +
   theme_minimal()
-
-
 
