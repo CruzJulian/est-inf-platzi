@@ -2,10 +2,6 @@
 # Veamos el funcionamiento del sesgo y la varianza a nivel funcion --------
 
 
-# Paquetes ----------------------------------------------------------------
-
-
-
 # Kernel ------------------------------------------------------------------
 
 
@@ -23,12 +19,12 @@ Y <- rnorm(tamano_muestral, media, desv)
 estimador_kernel <- density(Y)
 
 plot(estimador_kernel)
-lines(x = x, y = dnorm(x, media, desv), col = 2, lwd = 3)
+lines(x = x, y = dnorm(x, media, desv), col = 2, lwd = 2)
 
 
 
 plot(estimador_kernel)
-for(i in 1:iteraciones){
+for(i in seq_len(iteraciones)){
   Y <- rnorm(tamano_muestral, media, desv)
   
   estimador_kernel <- density(Y)
@@ -36,7 +32,7 @@ for(i in 1:iteraciones){
   lines(estimador_kernel)
   
 }
-lines(x = x, y = dnorm(x, media, desv), col = 2, lwd = 3)
+lines(x = x, y = dnorm(x, media, desv), col = 2, lwd = 2)
 
 
 
@@ -56,12 +52,12 @@ Y <- runif(tamano_muestral, a, b)
 estimador_kernel <- density(Y)
 
 plot(estimador_kernel)
-lines(x = x, y = dunif(x, a, b), col = 2, lwd = 3)
+lines(x = x, y = dunif(x, a, b), col = 2, lwd = 2)
 
 
 
 plot(estimador_kernel)
-for(i in 1:iteraciones){
+for(i in seq_len(iteraciones)){
   Y <- runif(tamano_muestral, a, b)
   
   estimador_kernel <- density(Y)
@@ -69,7 +65,7 @@ for(i in 1:iteraciones){
   lines(estimador_kernel)
   
 }
-lines(x = x, y = dunif(x, a, b), col = 2, lwd = 3)
+lines(x = x, y = dunif(x, a, b), col = 2, lwd = 2)
 
 
 
@@ -90,7 +86,7 @@ Y <- rnorm(tamano_muestral, media, desv)
 estimador_ecdf <- ecdf(Y)
 
 plot(estimador_ecdf, pch = "", verticals = TRUE)
-lines(x = x, y = pnorm(x, media, desv), col = 2, lwd = 3)
+lines(x = x, y = pnorm(x, media, desv), col = 2, lwd = 2)
 
 
 
@@ -103,7 +99,7 @@ for(i in seq_len(iteraciones)){
   lines(estimador_ecdf, pch = "", verticals = TRUE)
   
 }
-lines(x = x, y = pnorm(x, media, desv), col = 2, lwd = 3)
+lines(x = x, y = pnorm(x, media, desv), col = 2, lwd = 2)
 
 
 
@@ -121,7 +117,7 @@ Y <- runif(tamano_muestral, a, b)
 estimador_ecdf <- ecdf(Y)
 
 plot(estimador_ecdf, pch = "", verticals = TRUE)
-lines(x = x, y = punif(x, a, b), col = 2, lwd = 3)
+lines(x = x, y = punif(x, a, b), col = 2, lwd = 2)
 
 
 
@@ -134,7 +130,7 @@ for(i in seq_len(iteraciones)){
   lines(estimador_ecdf, pch = "", verticals = TRUE)
   
 }
-lines(x = x, y = punif(x, a, b), col = 2, lwd = 3)
+lines(x = x, y = punif(x, a, b), col = 2, lwd = 2)
 
 
 
@@ -171,15 +167,17 @@ for(i in seq_len(iteraciones)){
   lines(x, modelo_lineal$fitted.values)
   
 }
-abline(beta_0, beta_1, col = 2, lwd = 3)
+abline(beta_0, beta_1, col = 2, lwd = 2)
 
 
 
 # Red neuronal ------------------------------------------------------------
+
+library("nnet")
+
 iteraciones <- 100
 tamano_muestral <- 30
 
-library("nnet")
 
 genera_y <- function(x, beta_0, beta_1){
   cos(x) + rnorm(length(x), 0, 0.5)
@@ -191,7 +189,7 @@ X <- seq(0, 3*pi, length.out = tamano_muestral)
 Y <- genera_y(X)
 
 plot(Y~X)
-lines(cos(X) ~ X, col = 2, lwd = 3)
+lines(cos(X) ~ X, col = 2, lwd = 2)
 
 
 red_neuronal <- nnet(X, Y, size = 8, linout = TRUE, trace = FALSE)
@@ -208,5 +206,5 @@ for(i in seq_len(iteraciones)){
   
 }
 
-lines(cos(X) ~ X, col = 2, lwd = 3)
+lines(cos(X) ~ X, col = 2, lwd = 2)
 
