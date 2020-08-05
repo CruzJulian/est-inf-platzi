@@ -2,9 +2,6 @@
 # En el espacio de parámetros podemos ver los parámetros y sus est --------
 
 
-# paquetes ----------------------------------------------------------------
-
-
 # Distribución normal -----------------------------------------------------
 
 tamano_muestral <- 35
@@ -77,7 +74,14 @@ plot(beta_0_estimado, beta_1_estimado)
 points(beta_0, beta_1, col = 2, cex = 2, pch = 20)
 
 
-# Gráfico bonito ----------------------------------------------------------
+
+
+# Tidy approach -----------------------------------------------------------
+
+
+
+# paquetes ----------------------------------------------------------------
+
 
 library("dplyr")
 library("ggplot2")
@@ -143,3 +147,4 @@ tibble(
 qplot(beta_0, beta_1, data = simulaciones) + 
   annotate("point", 1, -0.3, colour = colores_platzi[3], size = 5) +
   theme_minimal()
+
