@@ -4,10 +4,6 @@
 
 
 
-# Paquetes ----------------------------------------------------------------
-
-
-
 # Kernel ------------------------------------------------------------------
 
 
@@ -26,7 +22,6 @@ estimador_kernel <- density(Y)
 
 plot(estimador_kernel)
 lines(x = x, y = dnorm(x, media, desv), col = 2, lwd = 2)
-
 
 
 plot(estimador_kernel)
@@ -137,6 +132,10 @@ lines(x = x, y = punif(x, a, b), col = 2, lwd = 2)
 
 
 # Tidy approach -----------------------------------------------------------
+
+
+# Paquetes ----------------------------------------------------------------
+
 
 library("magrittr")
 library("ggplot2")
