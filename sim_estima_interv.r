@@ -1,10 +1,6 @@
 
 # En el espacio de parámetros podemos ver los parámetros y los int --------
 
-
-# Paquetes ----------------------------------------------------------------
-
-
 # intervalos de confianza de la media -------------------------------------
 
 tamano_muestral <- 35
@@ -40,7 +36,11 @@ abline(1,1, col = 2)
 points(media_poblacional_A, media_poblacional_B, col = 4, pch = 20, cex = 3)
 
 
-# gráficos bonitos --------------------------------------------------------
+# Tidy approach -----------------------------------------------------------
+
+
+# Paquetes ----------------------------------------------------------------
+
 
 library("dplyr")
 library("LaCroixColoR")
