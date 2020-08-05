@@ -3,7 +3,6 @@
 # Red neuronal vs regresión lineal. ¿Cuál es el mejor estimador? ----------
 
 
-
 # Paquetes ----------------------------------------------------------------
 
 library("nnet")
@@ -83,10 +82,10 @@ lines(cos(X) ~ X, col = 2, lwd = 2)
 
 
 
-
-
 # Tidy approach -----------------------------------------------------------
 
+
+# Paquetes ----------------------------------------------------------------
 
 library("dplyr")
 library("magrittr")
