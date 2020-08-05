@@ -1,9 +1,6 @@
 
 # Podemos ver que el tamaño muestral presenta rendimientos decreci --------
 
-# Paquetes ----------------------------------------------------------------
-
-
 
 # Distribución normal -----------------------------------------------------
 
@@ -111,7 +108,11 @@ plot(dif_cuad_beta_1 ~ tamano_muestral, type = "l")
 
 
 
-# Gráficos bonitos --------------------------------------------------------
+# tidy approach -----------------------------------------------------------
+
+
+# Paquetes ----------------------------------------------------------------
+
 
 library("dplyr")
 library("purrr")
@@ -242,7 +243,5 @@ qplot(tamano_muestral, beta_1_estimado, data = simulaciones) +
 qplot(tamano_muestral, dif_cuad_beta_1, data = simulaciones) +
   geom_smooth(size = 1, se = FALSE, colour = colores_platzi[4]) +
   theme_minimal()
-
-
 
 
