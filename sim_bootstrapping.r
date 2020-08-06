@@ -49,16 +49,10 @@ data.frame(
 intervalo_bootstrapping
 
 
-xmin_gr <- beta_0 - 4*desv_est_error/sqrt(tamano_muestral)
-xmax_gr <- beta_0 + 4*desv_est_error/sqrt(tamano_muestral)
-ymin_gr <- beta_1 - 4*desv_est_error/sqrt(tamano_muestral)
-ymax_gr <- beta_1 + 4*desv_est_error/sqrt(tamano_muestral)
 
-plot(beta_0, beta_1, xlim = c(xmin_gr, xmax_gr), ylim = c(ymin_gr, ymax_gr))
+plot(beta_0, beta_1)
 
-for(i in 1:iteraciones){
-points(beta_0_estimado[i], beta_1_estimado[i])
-}
+points(beta_0_estimado, beta_1_estimado)
 points(coeficientes_muestrales[1], coeficientes_muestrales[2], pch = 20, col = 4, cex = 3)
 points(beta_0, beta_1, pch = 20, col = 2, cex = 3)
 rect(
