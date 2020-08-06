@@ -27,7 +27,7 @@ rmse_fold <- function(pliegue, form, datos,  nn_size){
 
 
 n_pliegues <- 5
-tamano_muestral <- 3000
+tamano_muestral <- 30
 neuronas <- 10
 
 genera_y <- function(x){
@@ -64,7 +64,7 @@ library("dplyr")
 library("magrittr")
 
 n_pliegues <- 5
-tamano_muestral <- 3000
+tamano_muestral <- 30
 neuronas <- 10
 
 tibble(
