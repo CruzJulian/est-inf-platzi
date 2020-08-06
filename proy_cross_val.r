@@ -3,24 +3,23 @@
 
 # Paquetes ----------------------------------------------------------------
 
-library("dplyr")
 library("saber")
 library("nnet")
 library("caret")
-library("purrr")
 library("parallel")
 
 data("SB11_20112")
 
 # función de pliegue ------------------------------------------------------
 
-rmse_fold <- function(pliegue, X, Y, nn_size){
-  pliegue_logic <- seq_len(nrow(X)) %in% pliegue
-  entrena_X <- subset(X, !pliegue_logic)
-  entrena_Y <- subset(Y, !pliegue_logic)
-  modelo <- nnet(X, Y, size = nn_size, linout = TRUE, trace = FALSE)
-  Y_pronosticado <- as.vector(predict(modelo, newdata = subset(X, pliegue_logic)))
-  rmse <- sqrt(mean((unlist(subset(Y, pliegue_logic)) - Y_pronosticado)^2))
+rmse_fold <- function(pliegue, form, datos,  nn_size){
+  pliegue_logic <- seq_len(nrow(datos)) %in% pliegue
+  entrena <- subset(datos, !pliegue_logic)
+  prueba <- subset(datos, pliegue_logic)
+  modelo <- nnet(form, data = datos, size = nn_size, linout = TRUE, trace = FALSE)
+  response_name <- setdiff(names(datos), modelo$coefnames)
+  Y_pronosticado <- predict(modelo, newdata = prueba)
+  rmse <- RMSE(Y_pronosticado, prueba[[response_name]])
   rmse
 }
 
@@ -28,35 +27,74 @@ rmse_fold <- function(pliegue, X, Y, nn_size){
 # Red neuronal ------------------------------------------------------------
 
 
-tamano_muestral <- 2000
+tamano_muestral <- 5000
 neuronas <- 10
 n_pliegues <- 10
 
-muestra <- sample_n(SB11_20112, tamano_muestral)
 
 c(
-  "ECON_SN_TELEFONIA", 
-  "ECON_SN_CELULAR",
-  "ECON_SN_INTERNET",
-  "ECON_SN_COMPUTADOR"
-) -> nombres_X
+  "ECON_PERSONAS_HOGAR",
+  "ECON_CUARTOS",
+  "ECON_SN_LAVADORA",
+  "ECON_SN_NEVERA",
+  "ECON_SN_HORNO",
+  "ECON_SN_DVD",
+  "ECON_SN_MICROHONDAS",
+  "ECON_SN_AUTOMOVIL",
+  "MATEMATICAS_PUNT"
+) -> variables
 
-X <- muestra[nombres_X]
+indices_muestra <- seq_len(nrow(SB11_20112)) %in% sample(seq_len(nrow(SB11_20112)), tamano_muestral)
 
-Y <- muestra["MATEMATICAS_PUNT"]
+muestra <- subset(SB11_20112, subset = indices_muestra, select = variables)
+muestra <- na.omit(muestra)
 
-Y_v <- unlist(Y)
+createFolds(muestra$MATEMATICAS_PUNT, k = n_pliegues) -> pliegues
+
+mclapply(
+  pliegues,
+  rmse_fold, 
+  MATEMATICAS_PUNT ~., 
+  muestra, 
+  nn_size = neuronas, 
+  mc.cores = floor(detectCores()*0.8)
+) -> rmse_pliegues
+
+rmse_pliegues <- unlist(rmse_pliegues)
+mean(rmse_pliegues)
+
+plot(rmse_pliegues, ylim = c(0, 12))
+abline(h = mean(rmse_pliegues), col = 2, lwd = 2)
+
+# Tidy approach -----------------------------------------------------------
+
+library("dplyr")
+library("magrittr")
 
 
-red_neuronal <- nnet(X, Y, size = neuronas, linout = TRUE, trace = FALSE)
+tamano_muestral <- 5000
+neuronas <- 10
+n_pliegues <- 10
 
-plot(Y_v ~ predict(red_neuronal))
-lines(1:100, col = 2)
+tibble(
+  pliegues = createFolds(muestra$MATEMATICAS_PUNT, k = n_pliegues),
+  rmse_pliegues = mclapply(
+    pliegues,
+    rmse_fold, 
+    MATEMATICAS_PUNT ~., 
+    muestra, 
+    nn_size = neuronas, 
+    mc.cores = floor(detectCores()*0.8)
+  ) %>% unlist,
+  nombres = names(pliegues)
+) -> validacion
 
-createFolds(Y_v, k = n_pliegues) -> pliegues
+validacion %$% mean(rmse_pliegues)
 
-pliegues %>% 
-  mclapply(rmse_fold, X, Y, nn_size = neuronas, mc.cores = floor(detectCores()*0.8)) %>% 
-  unlist %>% 
-  mean
+ggplot(validacion) +
+  geom_vline(aes(xintercept = 0), size = 1.5) +
+  geom_segment(aes(x = 0, y = nombres, xend = rmse_pliegues, yend = nombres), colour = "grey75") +
+  geom_point(aes(x = rmse_pliegues, y = nombres), size = 4) +
+  theme_minimal()
+
 
