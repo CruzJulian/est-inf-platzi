@@ -30,12 +30,6 @@ data("SB11_20112")
 iteraciones <- 38
 tamano_muestral <- 27
 
-mean(SB11_20112$MATEMATICAS_PUNT)
-sd(SB11_20112$MATEMATICAS_PUNT)
-
-mean(sample(SB11_20112$MATEMATICAS_PUNT, tamano_muestral))
-sd(sample(SB11_20112$MATEMATICAS_PUNT, tamano_muestral))
-
 plot(
 mean(SB11_20112$MATEMATICAS_PUNT),
 sd(SB11_20112$MATEMATICAS_PUNT),
